@@ -2,7 +2,8 @@ package boardGame;
 
 public class Piece { // Classe-mäe Piece (abstrata) para todas as peças do jogo.
 
-    protected Position position; // Está protegida para a classe Position é uma classe de matriz,  não pode aparecer no terminal ao rodar o sistema
+    protected Position position; // Está protegida para a classe Position é uma classe de matriz, não pode
+                                 // aparecer no terminal ao rodar o sistema
     private Board board; // Associação com a classe Board
 
     public Piece(Board board) {
@@ -14,7 +15,8 @@ public class Piece { // Classe-mäe Piece (abstrata) para todas as peças do jog
         return position;
     }
 
-    protected Board getBoard() { // Não há setter para o tabuleiro, pois uma vez que a peça é colocada no tabuleiro, isso não pode ser alterado
+    protected Board getBoard() { // Não há setter para o tabuleiro, pois uma vez que a peça é colocada no
+                                 // tabuleiro, isso não pode ser alterado
         return board;
     }
 

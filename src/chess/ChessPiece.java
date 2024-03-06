@@ -12,7 +12,8 @@ public class ChessPiece extends Piece { // subclasse da classe Piece
         this.color = color;
     }
 
-    public Color getColor() { // Tem apenas o método get, pois a cor da peça será acessada e não modificada, como aconteceria com o método set
+    public Color getColor() { // Tem apenas o método get, pois a cor da peça será acessada e não modificada,
+                              // como aconteceria com o método set
         return color;
     }
 

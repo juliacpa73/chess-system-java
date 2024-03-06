@@ -4,12 +4,15 @@ public class Board {
 
     private int rows; // Quantidade de linhas do tabuleiro
     private int columns; // Quantidade de colunas do tabuleiro
-    private Piece[][] pieces; // Declaração de uma matriz de objetos Piece chamada 'pieces' para representar as peças no tabuleiro.
+    private Piece[][] pieces; // Declaração de uma matriz de objetos Piece chamada 'pieces' para representar
+                              // as peças no tabuleiro.
 
-    public Board(int rows, int columns) { // Construtor da classe Board, que recebe a quantidade de linhas e colunas como parâmetros.
+    public Board(int rows, int columns) { // Construtor da classe Board, que recebe a quantidade de linhas e colunas
+                                          // como parâmetros.
         this.rows = rows;
         this.columns = columns;
-        pieces = new Piece[rows][columns]; // Inicializa a matriz 'pieces' com o tamanho especificado pelas linhas e colunas.
+        pieces = new Piece[rows][columns]; // Inicializa a matriz 'pieces' com o tamanho especificado pelas linhas e
+                                           // colunas.
     }
 
     public int getRows() {
@@ -36,4 +39,10 @@ public class Board {
         return pieces[position.getRow()][position.getColumn()];
     }
 
+    public void placePiece(Piece piece, Position position) { // Método para encontrar a posição da peça no tabuleiro
+        pieces[position.getRow()][position.getColumn()] = piece; // O método vai percorrer a matriz do tabuleiro
+                                                                 // (instanciada no construtor Board) para achar a peça
+                                                                 // por linhas e colunas
+        piece.position = position; // Aqui a peça não está mais nula como no construtor Board
+    }
 }
