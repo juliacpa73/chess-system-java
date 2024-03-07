@@ -1,8 +1,35 @@
 package application;
 
 import chess.ChessPiece;
+import chess.Color;
 
 public class UI {
+
+    // https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println
+
+    // Cores do texto
+
+    public static final String ANSI_RESET = "\u001B[0m";
+    public static final String ANSI_BLACK = "\u001B[30m";
+    public static final String ANSI_RED = "\u001B[31m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_YELLOW = "\u001B[33m";
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_PURPLE = "\u001B[35m";
+    public static final String ANSI_CYAN = "\u001B[36m";
+    public static final String ANSI_WHITE = "\u001B[37m";
+
+    // Cores do fundo
+
+    public static final String ANSI_BLACK_BACKGROUND = "\u001B[40m";
+    public static final String ANSI_RED_BACKGROUND = "\u001B[41m";
+    public static final String ANSI_GREEN_BACKGROUND = "\u001B[42m";
+    public static final String ANSI_YELLOW_BACKGROUND = "\u001B[43m";
+    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
+    public static final String ANSI_PURPLE_BACKGROUND = "\u001B[45m";
+    public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
+    public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
+
     public static void printBoard(ChessPiece[][] pieces) {
         for (int i = 0; i < pieces.length; i++) {
             System.out.print((8 - i) + " "); // Não pode ser println, pois aconteceria uma quebra de linha que deixaria
@@ -18,10 +45,15 @@ public class UI {
     private static void printPiece(ChessPiece piece) { // Método auxiliar para imprimir uma peça
         if (piece == null) {
             System.out.print("-"); // Não pode ser println, pois aconteceria uma quebra de linha que deixaria o
-                                // tabuleiro desalinhado
+                                   // tabuleiro desalinhado
         } else {
-            System.out.print(piece); // Não pode ser println, pois aconteceria uma quebra de linha que deixaria o
-                                // tabuleiro desalinhado
+            if (piece.getColor() == Color.WHITE) { // If para testar se a cor da peça vai ser branca ou preta
+                System.out.print(ANSI_WHITE + piece + ANSI_RESET);
+            } else { // Para não ficar adicionando colunas a mais na hora de imprimir
+                System.out.print(ANSI_YELLOW + piece + ANSI_RESET); // Não pode ser println, pois aconteceria uma quebra
+                                                                    // de linha que deixaria o
+                // tabuleiro desalinhado
+            }
         }
         System.out.print(" "); // Não pode ser println, pois aconteceria uma quebra de linha que deixaria o
                                // tabuleiro desalinhado
