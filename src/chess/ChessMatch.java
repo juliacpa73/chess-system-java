@@ -27,6 +27,12 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
         return mat;
     }
 
+    public boolean[][] possibleMoves(ChessPosition sourcePosition){
+        Position position = sourcePosition.toPosition();
+        validateSourcePosition(position);
+        return board.piece(position).possibleMoves();
+    }
+
     public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition){ // Método responsável por performar o movimento do xadrez
         Position source = sourcePosition.toPosition(); // Colocando a varíavel na matriz
         Position target = targetPosition.toPosition(); // Colocando a varíavel na matriz
