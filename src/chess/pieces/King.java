@@ -16,4 +16,10 @@ public class King extends ChessPiece { // Aqui a subclasse King está herdando c
         return "K"; // Esse "K" é a peça que aparecerá na hora de imprimir o tabuleiro
     }
 
+    @Override
+    public boolean[][] possibleMoves() {
+        boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
+        return mat;
+    }
+
 }

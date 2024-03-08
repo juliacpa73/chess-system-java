@@ -39,6 +39,9 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
         if (!board.thereIsAPiece(position)){
         throw new ChessException("There is no piece on source position. ");
         }
+        if(!board.piece(position).isThereAnyPossibleMove()){ // Se não tiver nenhum movimento possível....
+            throw new ChessException("There is no possible moves for the chosen piece. ");
+        }
     }
 
     private Piece makeMove(Position source, Position target){

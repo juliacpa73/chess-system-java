@@ -3,7 +3,7 @@ package chess;
 import boardGame.Board;
 import boardGame.Piece;
 
-public class ChessPiece extends Piece { // subclasse da classe Piece
+public abstract class ChessPiece extends Piece { // subclasse da classe Piece
 
     private Color color; // Associação com a classe enum Color
 

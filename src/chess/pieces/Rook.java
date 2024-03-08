@@ -16,4 +16,9 @@ public class Rook extends ChessPiece { // Aqui a subclasse Rook está herdando c
         return "R"; // Esse "R" é a peça que aparecerá na hora de imprimir o tabuleiro
     }
 
+    @Override
+    public boolean[][] possibleMoves() {
+        boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
+        return mat;
+    }
 }
