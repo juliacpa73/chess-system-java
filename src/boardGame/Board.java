@@ -51,6 +51,19 @@ public class Board {
         piece.position = position; // Aqui a peça não está mais nula como no construtor Board
     }
 
+    public Piece removePiece(Position position){ // Método responsável por remover a peça do tabuleiro
+        if (!positionExists(position)) {
+            throw new BoardException("Position not on the board");
+        }
+        if(piece(position) == null){ // Se a peça for igual a nulo, significa que não tem nada
+            return null;
+        }
+        Piece aux = piece(position);
+        aux.position = null; // Aqui indica que a peça está sendo retirada do tabuleiro, caso ela esteja lá
+        pieces[position.getRow()][position.getColumn()] = null; // Aqui a peça foi retirada da matriz (tabuleiro)
+        return aux;
+    }
+
     private boolean positionExists(int row, int column) { // Método auxiliar do método positionExists
         return row >= 0 && row < rows && column >= 0 && column < columns; // Condição para ver se a posição existe
     }
@@ -60,11 +73,12 @@ public class Board {
     }
 
     public boolean thereIsAPiece(Position position) {
-        if (thereIsAPiece(position)) {// Antes de colocar uma peça na posição, é preciso testar se já existe uma peça
+        if (!positionExists(position)) { // Antes de colocar uma peça na posição, é preciso testar se já existe uma peça
             // nessa posição para não colocar outra no lugar
-            throw new BoardException("There is already a piece on position " + position);
+            throw new BoardException("Position not on the board");
         }
-        return piece(position) != null;// Para saber se tem uma peça nessa posição, basta testas de a peça é diferente
-                                       // de nulo
+        return piece(position) != null; // Para saber se tem uma peça nessa posição, basta testas de a peça é diferente
+        // de nulo
     }
+
 }
