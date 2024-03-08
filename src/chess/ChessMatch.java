@@ -30,7 +30,8 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
     public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition){ // Método responsável por performar o movimento do xadrez
         Position source = sourcePosition.toPosition(); // Colocando a varíavel na matriz
         Position target = targetPosition.toPosition(); // Colocando a varíavel na matriz
-        validateSourcePosition(source);
+        validateSourcePosition(source); // Validação da posição de origem da peça
+        validadeTargetPosition(source, target); // Validação da posição de destino da peça
         Piece capturedPiece = makeMove(source, target); // Ação de mover a peça 
         return (ChessPiece)capturedPiece;
     }
@@ -41,6 +42,12 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
         }
         if(!board.piece(position).isThereAnyPossibleMove()){ // Se não tiver nenhum movimento possível....
             throw new ChessException("There is no possible moves for the chosen piece. ");
+        }
+    }
+
+    private void validadeTargetPosition(Position source, Position target){
+        if(!board.piece(source).possibleMove(target)){ // Se a peça de origem não tiver uma posição possível, não pode mover
+            throw new ChessException("The chosen piece can't move to target position. ");
         }
     }
 

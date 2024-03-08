@@ -71,7 +71,7 @@ public class UI {
             if (piece.getColor() == Color.WHITE) { // If para testar se a cor da peça vai ser branca ou preta
                 System.out.print(ANSI_WHITE + piece + ANSI_RESET);
             } else { // Para não ficar adicionando colunas a mais na hora de imprimir
-                System.out.print(ANSI_YELLOW + piece + ANSI_RESET); // Não pode ser println, pois aconteceria uma quebra
+                System.out.print(ANSI_CYAN + piece + ANSI_RESET); // Não pode ser println, pois aconteceria uma quebra
                                                                     // de linha que deixaria o
                 // tabuleiro desalinhado
             }

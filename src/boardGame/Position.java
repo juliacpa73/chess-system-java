@@ -25,6 +25,11 @@ public class Position { // Classe-mãe Posição que indica a posição do tabul
         this.column = column;
     }
 
+    public void setValues(int row, int column){
+        this.row = row;
+        this.column = column;
+    }
+
     @Override
     public String toString() { // toString para imprimir a posição na tela
         return row + ", " + column + ".";
