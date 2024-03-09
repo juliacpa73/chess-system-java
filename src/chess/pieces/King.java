@@ -1,6 +1,7 @@
 package chess.pieces;
 
 import boardGame.Board;
+import boardGame.Position;
 import chess.ChessPiece;
 import chess.Color;
 
@@ -16,9 +17,63 @@ public class King extends ChessPiece { // Aqui a subclasse King está herdando c
         return "K"; // Esse "K" é a peça que aparecerá na hora de imprimir o tabuleiro
     }
 
+    private boolean canMove(Position position) {
+        ChessPiece p = (ChessPiece) getBoard().piece(position);
+        return p == null || p.getColor() != getColor();
+    }
+
     @Override
     public boolean[][] possibleMoves() {
         boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
+        Position p = new Position(0, 0);
+
+        // Direção do rei para cima
+        p.setValues(position.getRow() - 1, position.getColumn());
+        if (getBoard().positionExists(p) && canMove(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+        }
+
+        // Direção do rei para baixo
+        p.setValues(position.getRow() + 1, position.getColumn());
+        if (getBoard().positionExists(p) && canMove(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+        }
+
+        // Direção do rei para esquerda
+        p.setValues(position.getRow(), position.getColumn() - 1);
+        if (getBoard().positionExists(p) && canMove(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+        }
+
+        // Direção do rei para direita
+        p.setValues(position.getRow(), position.getColumn() + 1);
+        if (getBoard().positionExists(p) && canMove(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+        }
+
+        // Direção do rei para noroeste
+        p.setValues(position.getRow() - 1, position.getColumn() - 1);
+        if (getBoard().positionExists(p) && canMove(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+        }
+
+        // Direção do rei para nordeste
+        p.setValues(position.getRow() - 1, position.getColumn() + 1);
+        if (getBoard().positionExists(p) && canMove(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+        }
+
+        // Direção do rei para sudoeste
+        p.setValues(position.getRow() + 1, position.getColumn() - 1);
+        if (getBoard().positionExists(p) && canMove(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+        }
+
+        // Direção do rei para sudeste
+        p.setValues(position.getRow() + 1, position.getColumn() + 1);
+        if (getBoard().positionExists(p) && canMove(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+        }
         return mat;
     }
 
