@@ -8,11 +8,22 @@ import chess.pieces.Rook;
 
 public class ChessMatch { // Classe coração do jogo responsável por controlar o fluxo do jogo e a
                           // impressão do tabuleiro será responsável por exibir o tabuleiro no console.
-
+    private int turn;
+    private Color currentPlayer;
     private Board board; // Associação com a classe Board para ter um tabuleiro
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public Color getCurrentPlayer() {
+        return currentPlayer;
+    }
 
     public ChessMatch() { // Construtor responssável por saber qual é a dimensão do tabuleiro
         board = new Board(8, 8); // Tamanho do tabuleiro
+        turn = 1;
+        currentPlayer = Color.WHITE;
         initialSetup(); // Vai chamar as peças no construtor
     }
 
@@ -27,45 +38,61 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
         return mat;
     }
 
-    public boolean[][] possibleMoves(ChessPosition sourcePosition){
+    public boolean[][] possibleMoves(ChessPosition sourcePosition) {
         Position position = sourcePosition.toPosition();
         validateSourcePosition(position);
         return board.piece(position).possibleMoves();
     }
 
-    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition){ // Método responsável por performar o movimento do xadrez
+    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) { // Método
+                                                                                                     // responsável por
+                                                                                                     // performar o
+                                                                                                     // movimento do
+                                                                                                     // xadrez
         Position source = sourcePosition.toPosition(); // Colocando a varíavel na matriz
         Position target = targetPosition.toPosition(); // Colocando a varíavel na matriz
         validateSourcePosition(source); // Validação da posição de origem da peça
         validadeTargetPosition(source, target); // Validação da posição de destino da peça
-        Piece capturedPiece = makeMove(source, target); // Ação de mover a peça 
-        return (ChessPiece)capturedPiece;
+        Piece capturedPiece = makeMove(source, target); // Ação de mover a peça
+        nextTurn();
+        return (ChessPiece) capturedPiece;
     }
 
-    private void validateSourcePosition(Position position){
-        if (!board.thereIsAPiece(position)){
-        throw new ChessException("There is no piece on source position. ");
+    private void validateSourcePosition(Position position) {
+        if (!board.thereIsAPiece(position)) {
+            throw new ChessException("There is no piece on source position. ");
         }
-        if(!board.piece(position).isThereAnyPossibleMove()){ // Se não tiver nenhum movimento possível....
+        if (currentPlayer != ((ChessPiece) board.piece(position)).getColor()) {
+            throw new ChessException("The chosen piece is not yours");
+        }
+        if (!board.piece(position).isThereAnyPossibleMove()) { // Se não tiver nenhum movimento possível....
             throw new ChessException("There is no possible moves for the chosen piece. ");
         }
     }
 
-    private void validadeTargetPosition(Position source, Position target){
-        if(!board.piece(source).possibleMove(target)){ // Se a peça de origem não tiver uma posição possível, não pode mover
+    private void validadeTargetPosition(Position source, Position target) {
+        if (!board.piece(source).possibleMove(target)) { // Se a peça de origem não tiver uma posição possível, não pode
+                                                         // mover
             throw new ChessException("The chosen piece can't move to target position. ");
         }
     }
 
-    private Piece makeMove(Position source, Position target){
+    private void nextTurn() {
+        turn++;
+        currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+    }
+
+    private Piece makeMove(Position source, Position target) {
         Piece p = board.removePiece(source);
         Piece capturedPiece = board.removePiece(target);
         board.placePiece(p, target);
         return capturedPiece;
     }
 
-    private void placeNewPiece(char column, int row, ChessPiece piece){ // Método responsável por receber as coordenadas do xadrez
-        board.placePiece(piece, new ChessPosition(column, row).toPosition()); // Com o toPosition, converte a operação para matriz
+    private void placeNewPiece(char column, int row, ChessPiece piece) { // Método responsável por receber as
+                                                                         // coordenadas do xadrez
+        board.placePiece(piece, new ChessPosition(column, row).toPosition()); // Com o toPosition, converte a operação
+                                                                              // para matriz
     }
 
     private void initialSetup() { // Método responsável por iniciar a partida de xadrez colocando as peças no
@@ -76,7 +103,7 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
         placeNewPiece('e', 2, new Rook(board, Color.WHITE));
         placeNewPiece('e', 1, new Rook(board, Color.WHITE));
         placeNewPiece('d', 1, new King(board, Color.WHITE));
-                   
+
         placeNewPiece('c', 7, new Rook(board, Color.BLACK));
         placeNewPiece('c', 8, new Rook(board, Color.BLACK));
         placeNewPiece('d', 7, new Rook(board, Color.BLACK));
@@ -84,4 +111,5 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
         placeNewPiece('e', 8, new Rook(board, Color.BLACK));
         placeNewPiece('d', 8, new King(board, Color.BLACK));
     }
+
 }

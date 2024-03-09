@@ -15,7 +15,7 @@ public class Program {
                        // funciona enquanto algo for verdadeiro
             try { // Tratamento de erro
                 UI.clearScreen();
-                UI.printBoard(chessMatch.getPieces()); // Imprime o tabuleiro na tela
+                UI.printMatch(chessMatch); // Imprime o tabuleiro na tela
                 System.out.println();
                 System.out.print("Source: "); // Origem da peça
                 ChessPosition source = UI.readChessPosition(sc);
