@@ -16,7 +16,7 @@ public class Program {
         ChessMatch chessMatch = new ChessMatch();
         List<ChessPiece> captured = new ArrayList<>();
 
-        while (true) { // True para ficar repetindo várias vezes, uma vez que a estrutura while
+        while (!chessMatch.isCheckMate()) { // True para ficar repetindo várias vezes, uma vez que a estrutura while
                        // funciona enquanto algo for verdadeiro
             try { // Tratamento de erro
                 UI.clearScreen();
@@ -47,5 +47,7 @@ public class Program {
                 sc.nextLine();
             }
         }
+        UI.clearScreen();
+        UI.printMatch(chessMatch, captured);
     }
 }
