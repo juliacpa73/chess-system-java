@@ -1,16 +1,30 @@
 package chess;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import boardGame.Board;
 import boardGame.Piece;
 import boardGame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
-public class ChessMatch { // Classe coração do jogo responsável por controlar o fluxo do jogo e a
-                          // impressão do tabuleiro será responsável por exibir o tabuleiro no console.
+// Classe coração do jogo responsável por controlar o fluxo do jogo e a impressão 
+//do tabuleiro será responsável por exibir o tabuleiro no console.
+public class ChessMatch {
     private int turn;
     private Color currentPlayer;
     private Board board; // Associação com a classe Board para ter um tabuleiro
+
+    private List<Piece> piecesOnTheBoard = new ArrayList<>();
+    private List<Piece> capturedPieces = new ArrayList<>();
+
+    public ChessMatch() { // Construtor responssável por saber qual é a dimensão do tabuleiro
+        board = new Board(8, 8); // Tamanho do tabuleiro
+        turn = 1;
+        currentPlayer = Color.WHITE;
+        initialSetup(); // Vai chamar as peças no construtor
+    }
 
     public int getTurn() {
         return turn;
@@ -20,16 +34,10 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
         return currentPlayer;
     }
 
-    public ChessMatch() { // Construtor responssável por saber qual é a dimensão do tabuleiro
-        board = new Board(8, 8); // Tamanho do tabuleiro
-        turn = 1;
-        currentPlayer = Color.WHITE;
-        initialSetup(); // Vai chamar as peças no construtor
-    }
-
-    public ChessPiece[][] getPieces() { // Método responsável por retornar uma matriz correspondente a partida do
-                                        // ChessMatch
-        ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()]; // instanciando a matriz do tabuleiro
+    // Método responsável por retornar uma matriz correspondente a partida do
+    // ChessMatch
+    public ChessPiece[][] getPieces() {
+        ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()]; // Instanciando a matriz do tabuleiro
         for (int i = 0; i < board.getRows(); i++) {
             for (int j = 0; j < board.getColumns(); j++) {
                 mat[i][j] = (ChessPiece) board.piece(i, j);
@@ -44,11 +52,8 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
         return board.piece(position).possibleMoves();
     }
 
-    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) { // Método
-                                                                                                     // responsável por
-                                                                                                     // performar o
-                                                                                                     // movimento do
-                                                                                                     // xadrez
+    // Método responsável por performar o movimento do xadrez
+    public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
         Position source = sourcePosition.toPosition(); // Colocando a varíavel na matriz
         Position target = targetPosition.toPosition(); // Colocando a varíavel na matriz
         validateSourcePosition(source); // Validação da posição de origem da peça
@@ -71,8 +76,8 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
     }
 
     private void validadeTargetPosition(Position source, Position target) {
-        if (!board.piece(source).possibleMove(target)) { // Se a peça de origem não tiver uma posição possível, não pode
-                                                         // mover
+        // Se a peça de origem não tiver uma posição possível, não pode mover
+        if (!board.piece(source).possibleMove(target)) {
             throw new ChessException("The chosen piece can't move to target position. ");
         }
     }
@@ -86,17 +91,25 @@ public class ChessMatch { // Classe coração do jogo responsável por controlar
         Piece p = board.removePiece(source);
         Piece capturedPiece = board.removePiece(target);
         board.placePiece(p, target);
+
+        if (capturedPiece != null) {
+            piecesOnTheBoard.remove(capturedPiece);
+            capturedPieces.add(capturedPiece);
+        }
+
         return capturedPiece;
     }
 
-    private void placeNewPiece(char column, int row, ChessPiece piece) { // Método responsável por receber as
-                                                                         // coordenadas do xadrez
-        board.placePiece(piece, new ChessPosition(column, row).toPosition()); // Com o toPosition, converte a operação
-                                                                              // para matriz
+    // Método responsável por receber as coordenadas do xadrez
+    private void placeNewPiece(char column, int row, ChessPiece piece) {
+        // Com o toPosition, converte a operação para matriz
+        board.placePiece(piece, new ChessPosition(column, row).toPosition());
+        piecesOnTheBoard.add(piece); // Adicionando a lista
     }
 
-    private void initialSetup() { // Método responsável por iniciar a partida de xadrez colocando as peças no
-                                  // tabuleiro
+    // Método responsável por iniciar a partida de xadrez colocando as peças no
+    // tabuleiro
+    private void initialSetup() {
         placeNewPiece('c', 1, new Rook(board, Color.WHITE));
         placeNewPiece('c', 2, new Rook(board, Color.WHITE));
         placeNewPiece('d', 2, new Rook(board, Color.WHITE));
