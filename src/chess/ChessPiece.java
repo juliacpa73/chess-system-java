@@ -13,13 +13,19 @@ public abstract class ChessPiece extends Piece { // subclasse da classe Piece
         this.color = color;
     }
 
-    public Color getColor() { // Tem apenas o método get, pois a cor da peça será acessada e não modificada,
-                              // como aconteceria com o método set
+    // Tem apenas o método get, pois a cor da peça será acessada e não modificada,
+    // como aconteceria com o método set
+    public Color getColor() {
         return color;
     }
 
-    protected boolean isThereOpponentPiece(Position position){ // Método responsável por verificar se tem alguma peça oponente
-        ChessPiece p = (ChessPiece)getBoard().piece(position);
+    public ChessPosition getChessPosition() {
+        return ChessPosition.fromPosition(position);
+    }
+
+    // Método responsável por verificar se tem alguma peça oponente
+    protected boolean isThereOpponentPiece(Position position) {
+        ChessPiece p = (ChessPiece) getBoard().piece(position);
         return p != null && p.getColor() != color; // Ele vai identificar a diferença pela cor da peça
     }
 
