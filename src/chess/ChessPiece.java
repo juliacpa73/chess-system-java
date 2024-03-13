@@ -7,6 +7,7 @@ import boardGame.Position;
 public abstract class ChessPiece extends Piece { // subclasse da classe Piece
 
     private Color color; // Associação com a classe enum Color
+    private int moveCount;
 
     public ChessPiece(Board board, Color color) {
         super(board); // Está repassando o construtor da classe-mãe Piece
@@ -17,6 +18,18 @@ public abstract class ChessPiece extends Piece { // subclasse da classe Piece
     // como aconteceria com o método set
     public Color getColor() {
         return color;
+    }
+
+    public int getMoveCount() {
+        return moveCount;
+    }
+
+    public void increaseMoveCount(){
+        moveCount++;
+    }
+
+    public void decreaseMoveCount(){
+        moveCount--;
     }
 
     public ChessPosition getChessPosition() {
