@@ -5,9 +5,11 @@ import boardGame.Position;
 import chess.ChessPiece;
 import chess.Color;
 
-public class Pawn extends ChessPiece {
+public class Pawn extends ChessPiece { // Aqui a subclasse Peão está herdando características da subclasse-mãe
+    // ChessPiece
 
-    public Pawn(Board board, Color color) {
+
+    public Pawn(Board board, Color color) { // Construtor que está informando quem é o tabuleiro e a cor da peça
         super(board, color);
     }
 
