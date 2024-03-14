@@ -13,6 +13,7 @@ import chess.pieces.Knight;
 import chess.pieces.Pawn;
 import chess.pieces.Queen;
 import chess.pieces.Rook;
+import java.security.InvalidParameterException;
 
 // Classe principal do jogo de xadrez, responsável por controlar o fluxo do jogo e a impressão do tabuleiro.
 public class ChessMatch {
@@ -22,6 +23,7 @@ public class ChessMatch {
     private boolean check; // Variável para verificar se o rei está em cheque.
     private boolean checkMate;
     private ChessPiece enPassantVulnerable;
+    private ChessPiece promoted;
 
     private List<Piece> piecesOnTheBoard = new ArrayList<>(); // Lista de peças no tabuleiro.
     private List<Piece> capturedPieces = new ArrayList<>(); // Lista de peças capturadas.
@@ -55,6 +57,10 @@ public class ChessMatch {
 
     public ChessPiece getEnPassantVulnerable() {
         return enPassantVulnerable;
+    }
+
+    public ChessPiece getPromoted() {
+        return promoted;
     }
 
     // Método para retornar uma matriz correspondente à partida de xadrez.
@@ -91,6 +97,16 @@ public class ChessMatch {
 
         ChessPiece movedPiece = (ChessPiece) board.piece(target);
 
+        // #specialmove promotion
+        promoted = null;
+        if (movedPiece instanceof Pawn) {
+            if ((movedPiece.getColor() == Color.WHITE && target.getRow() == 0)
+                    || (movedPiece.getColor() == Color.BLACK && target.getRow() == 7)) {
+                promoted = (ChessPiece) board.piece(target);
+                promoted = replacePromotedPiece("Q");
+            }
+        }
+
         // Verifica se o movimento coloca o adversário em cheque.
         check = (testCheck(opponent(currentPlayer))) ? true : false;
 
@@ -110,6 +126,32 @@ public class ChessMatch {
 
         return (ChessPiece) capturedPiece; // Retorna a peça capturada, se houver.
     }
+
+    public ChessPiece replacePromotedPiece(String type) {
+		if (promoted == null) {
+			throw new IllegalStateException("There is no piece to be promoted");
+		}
+		if (!type.equals("B") && !type.equals("N") && !type.equals("R") & !type.equals("Q")) {
+			throw new InvalidParameterException("Invalid type for promotion");
+		}
+
+		Position pos = promoted.getChessPosition().toPosition();
+		Piece p = board.removePiece(pos);
+		piecesOnTheBoard.remove(p);
+
+		ChessPiece newPiece = newPiece(type, promoted.getColor());
+		board.placePiece(newPiece, pos);
+		piecesOnTheBoard.add(newPiece);
+
+		return newPiece;
+	}
+
+	private ChessPiece newPiece(String type, Color color) {
+		if (type.equals("B")) return new Bishop(board, color);
+		if (type.equals("N")) return new Knight(board, color);
+		if (type.equals("Q")) return new Queen(board, color);
+		return new Rook(board, color);
+	}
 
     // Método para validar a posição de origem da peça.
     private void validateSourcePosition(Position position) {
